@@ -4,7 +4,7 @@
         <title>GitWords Multiplayer Game</title>
         <link rel="stylesheet" href="/ui/css/style.css">
     </head>
-    <body>
+    <body onload="loadSound()">
         
         <div id="startScreen">
             <div class="window">
@@ -22,7 +22,8 @@
         </div>
 
         <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="/socket.io/socket.io.js"></script>            
+        <script src="/socket.io/socket.io.js"></script>  
+        <script src="https://code.createjs.com/soundjs-0.6.2.min.js"></script>          
     </body>
     <script src="/scripts/main.js"></script>
 </html>  

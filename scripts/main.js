@@ -30,6 +30,7 @@ let processCommand = (text) => {
     if(tokens.length > 0){
         if(tokens[0] == 'git') {
             if(tokens[1] == 'add') {
+                createjs.Sound.play("add");
                 currentWord += loadedWord.splited[tokens[2]];
             }
             else if(tokens[1] == 'commit') {
@@ -53,6 +54,7 @@ let showWord = () => {
 };
 
 let startGame = () => {
+    createjs.Sound.play("start");
     $('#startGame').hide();
     $('#gameScreen').show();
     let playerName = $('#nickNameInput').val();
@@ -62,6 +64,11 @@ let startGame = () => {
     }, 5000);*/
     showWord();
 };
+
+let loadSound = () => {
+    createjs.Sound.registerSound("/assets/sounds/start.ogg", "start");
+    createjs.Sound.registerSound("/assets/sounds/add.ogg", "add");
+}
 
 socket.on('connect', function(data) {
         
