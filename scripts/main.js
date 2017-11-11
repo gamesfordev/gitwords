@@ -5,6 +5,7 @@ let currentWord = '';
 let loadedWord = '';
 let myScore = 0;
 let myTime = 60;
+let playeName = 'John';
 let words = [
     {
         "splited" : ["mple", "exa"],
@@ -15,6 +16,16 @@ let words = [
         "splited" : ["ca", "tion", "edu"],
         "correct" : "education",
         "points" : 3,
+    },
+    {
+        "splited" : ["na", "ban", "a"],
+        "correct" : "banana",
+        "points" : 1,
+    },
+    {
+        "splited" : ["le", "ap", "p"],
+        "correct" : "apple",
+        "points" : 1,
     },
 ];
 
@@ -40,6 +51,7 @@ let processCommand = (text) => {
                 if(loadedWord.correct == currentWord) {
                     console.log('correct!!');
                     myScore += loadedWord.points;
+                    $('#score').html(myScore);
                 }
                 else{
                     console.log('wrong!!');
@@ -55,12 +67,18 @@ let showWord = () => {
     let randomWord = words[parseInt(Math.random() * 1000) % words.length];
     loadedWord = randomWord;
     console.log(randomWord);
+    $('#pool').html(randomWord.splited.toString());
 };
 
 let startGame = () => {
+    playerName = $('#nickNameInput').val();
+    myScore = 0;
+    myTime = 60;
     $('#startGame').hide();
     $('#gameScreen').show();
-    let playerName = $('#nickNameInput').val();
+    $('#player').html(playerName);
+    $('#time').html(myTime);
+    $('#score').html(myScore);
     socket.emit('playerConnect', playerName);
 
     gameTicker = window.setInterval(() => {
@@ -77,6 +95,7 @@ let gameTick = () => {
     }
     myTime--;
     console.log('Time ' + myTime);
+    $('#time').html(myTime);
 };
 
 let gameOver = () => {
