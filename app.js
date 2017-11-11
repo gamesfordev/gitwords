@@ -24,5 +24,7 @@ server.listen(port, () => {
 
 
 io.on('connection', function(client) {  
-    console.log('Player loaded the game!');
+    client.on('playerConnect', () => {
+    	console.log('New Player Connected!');
+    });
 });
