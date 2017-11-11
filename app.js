@@ -8,7 +8,7 @@ const mongo=require('./services/mongoservice').mongo
 app.use(express.static(__dirname));
 
 app.get('/', function(req, res,next) { 
-    mongo(function(err,db){
+    /*mongo(function(err,db){
         // db.collection("testdb").insertOne({"test3":"1234"}, function(err, result) {
            
         //     console.log(result);
@@ -26,7 +26,7 @@ app.get('/', function(req, res,next) {
             }
          });
 
-    }) 
+    })*/ 
     res.sendFile(__dirname + '/ui/index.html');
 });
 
