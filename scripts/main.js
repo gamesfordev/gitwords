@@ -4,7 +4,7 @@ let gameTicker = null;
 let currentWord = '';
 let loadedWord = '';
 let myScore = 0;
-let myTime = 60;
+let myTime = 180;
 let playeName = 'John';
 let words = [
     {
@@ -73,7 +73,7 @@ let showWord = () => {
 let startGame = () => {
     playerName = $('#nickNameInput').val();
     myScore = 0;
-    myTime = 60;
+    myTime = 180;
     $('#startGame').hide();
     $('#gameScreen').show();
     $('#player').html(playerName);
