@@ -4,7 +4,7 @@ let gameTicker = null;
 let currentWord = '';
 let loadedWord = '';
 let myScore = 0;
-let myTime = 120;
+let myTime = 60;
 let words = [
     {
         "splited" : ["mple", "exa"],
@@ -62,11 +62,21 @@ let startGame = () => {
     $('#gameScreen').show();
     let playerName = $('#nickNameInput').val();
     socket.emit('playerConnect', playerName);
-    wordsTimer = window.setInterval(() => {
-        myTime--;
-        console.log('Time ' + myTime);
+
+    gameTicker = window.setInterval(() => {
+        gameTick();
     }, 1000);
+
     showWord();
+};
+
+let gameTick = () => {
+    if(myTime == 0) {
+        gameOver();
+        return;
+    }
+    myTime--;
+    console.log('Time ' + myTime);
 };
 
 let gameOver = () => {
