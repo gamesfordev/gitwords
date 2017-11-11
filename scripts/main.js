@@ -1,8 +1,10 @@
 const HOST = location.origin.replace(/^http/, 'ws')
 let socket = io.connect(HOST);
-let wordsTimer = null;
+let gameTicker = null;
 let currentWord = '';
 let loadedWord = '';
+let myScore = 0;
+let myTime = 120;
 let words = [
     {
         "splited" : ["mple", "exa"],
@@ -12,7 +14,7 @@ let words = [
     {
         "splited" : ["ca", "tion", "edu"],
         "correct" : "education",
-        "pointes" : 3,
+        "points" : 3,
     },
 ];
 
@@ -37,6 +39,7 @@ let processCommand = (text) => {
             else if(tokens[1] == 'commit') {
                 if(loadedWord.correct == currentWord) {
                     console.log('correct!!');
+                    myScore += loadedWord.points;
                 }
                 else{
                     console.log('wrong!!');
@@ -59,10 +62,16 @@ let startGame = () => {
     $('#gameScreen').show();
     let playerName = $('#nickNameInput').val();
     socket.emit('playerConnect', playerName);
-    /*wordsTimer = window.setInterval(() => {
-        showWord();
-    }, 5000);*/
+    wordsTimer = window.setInterval(() => {
+        myTime--;
+        console.log('Time ' + myTime);
+    }, 1000);
     showWord();
+};
+
+let gameOver = () => {
+    console.log('Game over');
+    window.clearInterval(gameTicker);
 };
 
 socket.on('connect', function(data) {
