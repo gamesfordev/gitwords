@@ -1,0 +1,33 @@
+<!doctype html>  
+<html lang="en">  
+    <head>
+        <title>GitWords Multiplayer Game</title>
+        <link rel="stylesheet" href="/ui/css/style.css">
+    </head>
+    <body>
+        
+        <div id="startScreen">
+            <div class="window">
+                <input type="text" value="" id="nickNameInput" placeholder="ie. John" />
+                <div class="seperator"></div>
+                <div class="startbutton" onclick="startGame();">START GAME</div>
+            </div>
+        </div>
+
+        <div id="gameScreen">
+            <h1><span id="player"></span></h1>
+            <h3>Time : <span id="time"></span></h3>
+            <h3>Score : <span id="score"></span></h3>
+            <div class="words">
+                <div id="pool"></div>
+            </div>
+            <div class="terminal">
+                <input type="text" id="commandInput" />
+            </div> 
+        </div>
+
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="/socket.io/socket.io.js"></script>            
+    </body>
+    <script src="/scripts/main.js"></script>
+</html>  
