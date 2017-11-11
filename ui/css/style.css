@@ -513,3 +513,31 @@ body {
 #startScreen .window .seperator {
     height: 20px;
 }
+.parent-wrapper{
+  height: 50%;
+}
+.words-wrapper{
+ background: #e6e6e6;
+ height: 140%;
+}
+.terminal-wrapper{
+  background: #383838;
+  bottom:0px;
+  height: 60%;
+}
+.info-wrapper{
+  background: #fff;
+  height: 100vh
+}
+.input-background{
+  background: rgba(83, 83, 83, 0);
+  border: 0;
+  width: 100%;
+  color: #fff;
+  font-family: Courier New, Courier, monospace;
+  margin: 5px 10px;
+}
+.input-background:focus{
+  outline: none;
+
+}

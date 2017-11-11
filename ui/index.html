@@ -1,34 +1,86 @@
-<!doctype html>  
-<html lang="en">  
-    <head>
-        <title>GitWords Multiplayer Game</title>
-        <link rel="stylesheet" href="/ui/css/style.css">
-    </head>
-    <body onload="loadSound()">
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>GitWords Multiplayer Game</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="/ui/css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+
+</head>
+
+<body onload="loadSound()">
         
-        <div id="startScreen">
-            <div class="window">
-                <input type="text" value="" id="nickNameInput" placeholder="ie. John" />
-                <div class="seperator"></div>
-                <div class="startbutton" onclick="startGame();">START GAME</div>
+    <div id="startScreen">
+        <div class="window">
+            <input type="text" value="" id="nickNameInput" placeholder="ie. John" />
+            <div class="seperator"></div>
+            <div class="startbutton" onclick="startGame();">START GAME</div>
+        </div>
+    </div>
+
+    <div id="gameScreen">
+        <div class="row parent-wrapper">
+
+            <div class="col-md-8">
+                <div class="row words-wrapper">
+                    <div class="col-md-8">
+                        <div class="well">
+                            <div class="words">
+                                <div id="pool"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row terminal-wrapper">
+                    <div class="col-md-12">
+                        <div class="well">
+                            <div class="terminal">
+                                <input class="input-background" type="text" id="commandInput" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 info-wrapper">
+                <div class="well">
+                    <h1>
+                        <span id="player"></span>
+                    </h1>
+                    <h3>Time :
+                        <span id="time"></span>
+                    </h3>
+                    <h3>Score :
+                        <span id="score"></span>
+                    </h3>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                </div>
             </div>
         </div>
 
-        <div id="gameScreen">
-            <h1><span id="player"></span></h1>
-            <h3>Time : <span id="time"></span></h3>
-            <h3>Score : <span id="score"></span></h3>
-            <div class="words">
-                <div id="pool"></div>
-            </div>
-            <div class="terminal">
-                <input type="text" id="commandInput" />
-            </div> 
-        </div>
 
-        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="/socket.io/socket.io.js"></script>  
-        <script src="https://code.createjs.com/soundjs-0.6.2.min.js"></script>          
-    </body>
-    <script src="/scripts/main.js"></script>
-</html>  
+
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.createjs.com/soundjs-0.6.2.min.js"></script>          
+    
+</body>
+<script src="/scripts/main.js"></script>
+
+</html>
