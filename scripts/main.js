@@ -1,4 +1,5 @@
-let socket = io.connect('http://localhost:8080');
+const HOST = location.origin.replace(/^http/, 'ws')
+let socket = io.connect(HOST);
 let wordsTimer = null;
 let currentWord = '';
 let loadedWord = '';
