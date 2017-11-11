@@ -7,10 +7,12 @@ let words = [
     {
         "splited" : ["mple", "exa"],
         "correct" : "example",
+        "points" : 2,
     },
     {
         "splited" : ["ca", "tion", "edu"],
         "correct" : "education",
+        "pointes" : 3,
     },
 ];
 
