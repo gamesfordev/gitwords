@@ -54,7 +54,8 @@ let showWord = () => {
 let startGame = () => {
     $('#startGame').hide();
     $('#gameScreen').show();
-    socket.emit('playerConnect', '');
+    let playerName = $('#nickNameInput').val();
+    socket.emit('playerConnect', playerName);
     /*wordsTimer = window.setInterval(() => {
         showWord();
     }, 5000);*/
