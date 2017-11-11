@@ -1,4 +1,23 @@
-        var socket = io.connect('http://localhost:8080');
-        socket.on('connect', function(data) {
-            
-        });
+let socket = io.connect('http://localhost:8080');
+let words = [
+    {
+        "splited" : ["mple", "exa"],
+        "correct" : "example",
+    },
+    {
+        "splited" : ["ca", "tion", "edu"],
+        "correct" : "education",
+    },
+];
+
+console.log(words);
+
+
+let startGame = () => {
+    $('#startGame').hide();
+    $('#gameScreen').show();
+};
+
+socket.on('connect', function(data) {
+        
+});
