@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();  
 const server = require('http').createServer(app);  
 const io = require('socket.io')(server);
-const port = 8080;
+const port = process.env.PORT || 8080;
 const mongo=require('./services/mongoservice').mongo
 
 app.use(express.static(__dirname));
