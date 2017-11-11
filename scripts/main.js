@@ -45,6 +45,7 @@ let processCommand = (text) => {
     if(tokens.length > 0){
         if(tokens[0] == 'git') {
             if(tokens[1] == 'add') {
+                createjs.Sound.play("add");
                 currentWord += loadedWord.splited[tokens[2]];
             }
             else if(tokens[1] == 'commit') {
@@ -74,6 +75,7 @@ let startGame = () => {
     playerName = $('#nickNameInput').val();
     myScore = 0;
     myTime = 180;
+    createjs.Sound.play("start");
     $('#startGame').hide();
     $('#gameScreen').show();
     $('#player').html(playerName);
@@ -87,6 +89,7 @@ let startGame = () => {
 
     showWord();
 };
+
 
 let gameTick = () => {
     if(myTime == 0) {
@@ -102,6 +105,12 @@ let gameOver = () => {
     console.log('Game over');
     window.clearInterval(gameTicker);
 };
+
+let loadSound = () => {
+    createjs.Sound.registerSound("/assets/sounds/start.ogg", "start");
+    createjs.Sound.registerSound("/assets/sounds/add.ogg", "add");
+}
+
 
 socket.on('connect', function(data) {
         
