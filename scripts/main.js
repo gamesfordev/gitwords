@@ -6,28 +6,7 @@ let loadedWord = '';
 let myScore = 0;
 let myTime = 180;
 let playeName = 'John';
-let words = [
-    {
-        "splited" : ["mple", "exa"],
-        "correct" : "example",
-        "points" : 2,
-    },
-    {
-        "splited" : ["ca", "tion", "edu"],
-        "correct" : "education",
-        "points" : 3,
-    },
-    {
-        "splited" : ["na", "ban", "a"],
-        "correct" : "banana",
-        "points" : 1,
-    },
-    {
-        "splited" : ["le", "ap", "p"],
-        "correct" : "apple",
-        "points" : 1,
-    },
-];
+let words = ["banana", "apple", "alternate", "boundary", "command", "gloves"];
 
 console.log(words);
 
@@ -38,6 +17,17 @@ $('#commandInput').keypress(function(e) {
     }
 });
 
+Array.prototype.shuffle = function() {
+  var i = this.length, j, temp;
+  if ( i == 0 ) return this;
+  while ( --i ) {
+     j = Math.floor( Math.random() * ( i + 1 ) );
+     temp = this[i];
+     this[i] = this[j];
+     this[j] = temp;
+  }
+  return this;
+}
 
 let processCommand = (text) => {
     console.log(text);
@@ -66,16 +56,24 @@ let processCommand = (text) => {
 
 let showWord = () => {
     let randomWord = words[parseInt(Math.random() * 1000) % words.length];
-    loadedWord = randomWord;
-    console.log(randomWord);
-    $('#pool').html(randomWord.splited.toString());
+    let chunks = randomWord.match(/.{1,2}/g).shuffle();
+    loadedWord = {
+        correct : randomWord,
+        splited : chunks,
+        points : chunks.length,
+    };
+
+    console.log(loadedWord);
+    $('#pool').html(loadedWord.splited.toString());
 };
 
 let startGame = () => {
     playerName = $('#nickNameInput').val();
     myScore = 0;
     myTime = 180;
+
     createjs.Sound.play("start");
+
     $('#startGame').hide();
     $('#gameScreen').show();
     $('#player').html(playerName);
