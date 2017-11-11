@@ -3,10 +3,30 @@ const app = express();
 const server = require('http').createServer(app);  
 const io = require('socket.io')(server);
 const port = 8080;
+const mongo=require('./services/mongoservice').mongo
 
 app.use(express.static(__dirname));
 
-app.get('/', function(req, res,next) {  
+app.get('/', function(req, res,next) { 
+    mongo(function(err,db){
+        // db.collection("testdb").insertOne({"test3":"1234"}, function(err, result) {
+           
+        //     console.log(result);
+        //     console.error(err);
+        //     db.close();
+        
+        //   });
+
+        let  cursor =db.collection("testdb").find()
+        cursor.each(function(err, doc) {
+            if (doc != null) {
+               console.dir(doc);
+            } else {
+               
+            }
+         });
+
+    }) 
     res.sendFile(__dirname + '/ui/index.html');
 });
 
