@@ -7,11 +7,23 @@ let myScore = 0;
 let myTime = 180;
 let playerName = 'John';
 let words = ["banana", "apple", "alternate", "boundary", "command", "gloves"];
-let commandHistory = []
+let commandHistory = [];
 let prevCommand = -1;
 let userid=null;
 
-console.log(words);
+$(document).ready(() => {
+    $('#nickNameInput').focus();
+});
+
+window.onbeforeunload = () => {
+    return false;
+};
+
+let Konsole = {
+    log : (text) => {
+        $('#consoleOut').append('<div>' + text + '</div>');
+    }
+};
 
 $('#commandInput').keypress(function (e) {
     if (e.which == 13) {
@@ -66,6 +78,7 @@ let processCommand = (text) => {
                 createjs.Sound.play("add");
                 currentWord += loadedWord.splited[tokens[2]];
                 $('#ck_' + tokens[2]).css('opacity', 0.6);
+                Konsole.log('$ GitWords : current word is ' + currentWord);
             }
             else if (tokens[1] == 'commit') {
                 if (loadedWord.correct == currentWord) {
@@ -79,6 +92,13 @@ let processCommand = (text) => {
                 currentWord = '';
                 showWord();
             }
+            else if(tokens[1] == 'reset') {
+                currentWord = '';
+                myScore -= 1;
+                myScore = myScore < 0 ? 0 : myScore;
+                $('#score').html(myScore); 
+                $('#pool .chunkcard').css('opacity', 1);
+            }
         }
     }
 };
@@ -89,10 +109,13 @@ let addToPool = (chunks) => {
         let cardHtml = '<div class="title">' + i + '</div>' + 
         '<div class="box">' + chunks[i] + '</div>';
         let card = $("<div>", {id: 'ck_' + i, "class": "chunkcard"});
+        let leftPos = ((i+1)/chunks.length) * 100;
+        let topPos = 10 + (Math.random() * 1000) % 70;
+
         $(card).html(cardHtml);
-        $(card).css('top','50%');
+        $(card).css('top',topPos + '%');
         $(card).css('margin-top', '-40px');
-        let leftPos = ((i+1)/chunks.length) * 100 ;
+        
         $(card).css('left', leftPos + '%');
         
         window.setTimeout(() => {
@@ -122,7 +145,7 @@ let showWord = () => {
 let startGame = () => {
     playerName = $('#nickNameInput').val();
     myScore = 0;
-    myTime = 1;
+    myTime = 180;
 
     createjs.Sound.play("start");
 
@@ -138,16 +161,16 @@ let startGame = () => {
     }, 1000);
 
     showWord();
+    $('#commandInput').focus();
 };
 
 
 let gameTick = () => {
+    myTime--;
     if (myTime == 0) {
         gameOver();
         return;
     }
-    myTime--;
-    console.log('Time ' + myTime);
     $('#time').html(myTime);
 };
 
@@ -156,6 +179,8 @@ let gameOver = () => {
     window.clearInterval(gameTicker);
     $('#gameScreen').hide();
     $('#endScreen').show();
+    $('#finalscore').html(myScore);
+    socket.emit('finish', {playerName:playerName,score:myScore}); //set whatever data you want to save to the db
 
     if(userid){
         var r= {_id:userid,playerName:playerName,score:myScore}

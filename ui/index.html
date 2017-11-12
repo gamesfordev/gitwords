@@ -31,6 +31,8 @@
         <div class="window">
             <img class="logo" src="ui/images/logo.png" alt="logo" />
             <div class="seperator"></div>
+            <h1> Your Score : <span id="finalscore"></span></h1>
+            <div class="seperator"></div>
             <div class="startbutton" onclick="startGame();">PLAY AGAIN</div>
         </div>
     </div>
@@ -38,24 +40,26 @@
     <div id="gameScreen">
         <div class="row parent-wrapper">
 
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <div class="row words-wrapper">
-                    <div class="col-md-8" id="pool">
+                    <div class="col-md-9" id="pool">
                     </div>
                 </div>
                 <div class="row terminal-wrapper">
-                    <div class="col-md-12">
+                    <div class="col-md-8">
                         <div class="well">
                             <div class="terminal">
                                 <input class="input-background" type="text" id="commandInput" onblur="this.focus()" autofocus />
+                                <div id="consoleOut" style="color:white; /* please remove this and add to css*/"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 info-wrapper">
+            <div class="col-md-3 info-wrapper">
                 <div class="well">
                     <h1>
+                        <img class="profile" src="ui/images/user.png" alt="profile picture"/>
                         <span id="player"></span>
                     </h1>
                     <h3>Time :
