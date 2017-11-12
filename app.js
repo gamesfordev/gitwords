@@ -38,8 +38,10 @@ io.on('connection', function(client) {
     client.on('finish', (data) => {
         mongo((err,db)=>{
             
-            db.collection("score").save(data,{w:1},(err, result) => {
+            db.collection("score").save(data,{},(err, result) => {
                 if(!err){
+                    console.log(data)
+                    client.emit('player',{uid:data._id})
                     getAll(db)
                 }
                 db.close();
@@ -55,8 +57,6 @@ let getAll=(db) =>{
     const cursor=db.collection("score").find();
     let data=[]
     
-    console.log(cursor)
-
     cursor.each((err, doc) => {
 
         if(err){

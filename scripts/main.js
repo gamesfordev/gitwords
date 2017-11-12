@@ -9,6 +9,7 @@ let playerName = 'John';
 let words = ["banana", "apple", "alternate", "boundary", "command", "gloves"];
 let commandHistory = []
 let prevCommand = -1;
+let userid=null;
 
 console.log(words);
 
@@ -121,7 +122,7 @@ let showWord = () => {
 let startGame = () => {
     playerName = $('#nickNameInput').val();
     myScore = 0;
-    myTime = 180;
+    myTime = 1;
 
     createjs.Sound.play("start");
 
@@ -158,6 +159,14 @@ let gameOver = () => {
     $('#finalscore').html(myScore);
     socket.emit('finish', {playerName:playerName,score:myScore}); //set whatever data you want to save to the db
 
+    if(userid){
+        var r= {_id:userid,playerName:playerName,score:myScore}
+    }else{
+        r= {playerName:playerName,score:myScore}
+    }
+
+    socket.emit('finish',r); //set whatever data you want to save to the db
+
 
 };
 
@@ -173,6 +182,7 @@ socket.on('connect', function(data) {
 });
 
 socket.on('scoreUpdate', function(res) {
+    console.log("score updated")
     console.log(res) //update leaderboard using this data
     let result=''
 
@@ -185,4 +195,8 @@ socket.on('scoreUpdate', function(res) {
 
     $('#leaderboard').html(result)
 
+});
+
+socket.on('player', (res) => {
+    userid=res.uid
 });
