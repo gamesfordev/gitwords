@@ -153,6 +153,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     height: 20px;
 }
 
+#endScreen h2{
+    text-align: center;
+}
+
 .logo{
   width: 375px;
   margin: 20px 10px;
