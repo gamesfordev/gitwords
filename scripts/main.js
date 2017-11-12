@@ -5,7 +5,7 @@ let currentWord = '';
 let loadedWord = '';
 let myScore = 0;
 let myTime = 180;
-let playeName = 'John';
+let playerName = 'John';
 let words = ["banana", "apple", "alternate", "boundary", "command", "gloves"];
 
 console.log(words);
