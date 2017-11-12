@@ -104,6 +104,7 @@ let processCommand = (text) => {
                 } else {
                     currentWord += loadedWord.splited[tokens[2]];
                     $('#ck_' + tokens[2]).css('opacity', 0.6);
+                    $('#ck_' + tokens[2]).data('mov', 'no');
                     Konsole.log('$ GitWords : current word is ' + currentWord);
                     createjs.Sound.play("add");
                 }
@@ -130,6 +131,7 @@ let processCommand = (text) => {
                 myScore = myScore < 0 ? 0 : myScore;
                 $('#score').html(myScore);
                 $('#pool .chunkcard').css('opacity', 1);
+                $('#pool .chunkcard').data('mov', 'yes');
             }
         } else if (tokens[0] == 'clear' || tokens[0] == 'cls') {
             Konsole.clear();
@@ -151,6 +153,7 @@ let addToPool = (chunks) => {
         $(card).css('top', topPos + '%');
         $(card).css('margin-top', '-40px');
         $(card).data('dir', '0.2');
+        $(card).data('mov', 'yes');
 
         $(card).css('left', leftPos + '%');
 
@@ -258,15 +261,17 @@ let gameOver = () => {
 
 let animationTick = () => {
     $('#pool .chunkcard').each((i, element) => {
-        let pos = parseFloat(document.getElementById('ck_' + i).style.top);
-        let dir = parseFloat($(element).data('dir'));
-        console.log('dir',dir);
-        pos += dir;
-        if(pos < 10) $(element).data('dir', Math.abs(dir));
-        if(pos > 80) $(element).data('dir', -dir);
+        if($(element).data('mov') == 'yes') {
+            let pos = parseFloat(document.getElementById('ck_' + i).style.top);
+            let dir = parseFloat($(element).data('dir'));
+            console.log('dir',dir);
+            pos += dir;
+            if(pos < 10) $(element).data('dir', Math.abs(dir));
+            if(pos > 80) $(element).data('dir', -dir);
 
-        console.log(pos);
-        $(element).css('top', pos + '%' );
+            console.log(pos);
+            $(element).css('top', pos + '%' );
+        }
     });
 };
 
