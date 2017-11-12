@@ -10,8 +10,7 @@
 
 * Step 01 : Go to this [Link](https://gitwords.herokuapp.com/)
 * Step 02 : Enter your nick name and click "START GAME" button
-<center>![start game](ui/images/screenshots/0.png)</center>
-
+![start game](ui/images/screenshots/0.png)
 
 * Step 03 : You will get few word chunks in purple coloured boxes
 * Step 04 : You need to arrange those chunks in a correct order <br>
