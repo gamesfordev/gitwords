@@ -15,6 +15,10 @@ $(document).ready(() => {
     $('#nickNameInput').focus();
 });
 
+window.onbeforeunload = () => {;
+    return false;
+};
+
 $('#commandInput').keypress(function (e) {
     if (e.which == 13) {
         processCommand($(this).val());
