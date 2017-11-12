@@ -37,7 +37,7 @@ let processCommand = (text) => {
             if(tokens[1] == 'add') {
                 createjs.Sound.play("add");
                 currentWord += loadedWord.splited[tokens[2]];
-                $('#ck_' + tokens[2]).hide();
+                $('#ck_' + tokens[2]).css('opacity', 0.6);
             }
             else if(tokens[1] == 'commit') {
                 if(loadedWord.correct == currentWord) {
