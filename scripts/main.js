@@ -93,7 +93,6 @@ let addToPool = (chunks) => {
         $(card).css('margin-top', '-40px');
         let leftPos = ((i+1)/chunks.length) * 100 ;
         $(card).css('left', leftPos + '%');
-        $(card).css('margin-left', '40px');
         
         window.setTimeout(() => {
             $('#pool').append(card);
