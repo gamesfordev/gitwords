@@ -89,10 +89,13 @@ let addToPool = (chunks) => {
         let cardHtml = '<div class="title">' + i + '</div>' + 
         '<div class="box">' + chunks[i] + '</div>';
         let card = $("<div>", {id: 'ck_' + i, "class": "chunkcard"});
+        let leftPos = ((i+1)/chunks.length) * 100;
+        let topPos = (Math.random() * 1000) % 100;
+
         $(card).html(cardHtml);
-        $(card).css('top','50%');
+        $(card).css('top',topPos + '%');
         $(card).css('margin-top', '-40px');
-        let leftPos = ((i+1)/chunks.length) * 100 ;
+        
         $(card).css('left', leftPos + '%');
         
         window.setTimeout(() => {
