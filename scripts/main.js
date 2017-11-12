@@ -23,6 +23,9 @@ window.onbeforeunload = () => {
 let Konsole = {
     log : (text) => {
         $('#consoleOut').append('<div>' + text + '</div>');
+    },
+    clear : () => {
+        $('#consoleOut').html('');
     }
 };
 
@@ -99,6 +102,9 @@ let processCommand = (text) => {
                 myScore = myScore < 0 ? 0 : myScore;
                 $('#score').html(myScore); 
                 $('#pool .chunkcard').css('opacity', 1);
+            }
+            else if(tokens[1] == 'clear' || tokens[1] == 'cls') {
+                Konsole.clear();
             }
         }
     }

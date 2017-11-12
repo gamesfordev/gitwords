@@ -39,8 +39,12 @@ body {
 }
 
 #startScreen {  
-    background-color: #c8e1ff; 
-    width: 100%;
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,7db9e8+78,7db9e8+78,1e5799+100 */
+background: #ffffff; /* Old browsers */
+background: -moz-linear-gradient(top, #ffffff 0%, #7db9e8 78%, #7db9e8 78%, #1e5799 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top, #ffffff 0%,#7db9e8 78%,#7db9e8 78%,#1e5799 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom, #ffffff 0%,#7db9e8 78%,#7db9e8 78%,#1e5799 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#1e5799',GradientType=0 ); /* IE6-9 */   width: 100%;
     height: 100%;
     position: fixed;
 }
@@ -166,6 +170,9 @@ body {
   background: #383838;
   bottom:0px;
   height: 60%;
+}
+.terminal-wrapper{
+  overflow: scroll;
 }
 .info-wrapper{
   background: #fff;
