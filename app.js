@@ -44,7 +44,7 @@ io.on('connection', function(client) {
                     client.emit('player',{uid:data._id})
                     getAll(db)
                 }
-                db.close();
+                
             
                 });
             })
@@ -61,6 +61,7 @@ let getAll=(db) =>{
 
         if(err){
             console.log("error")
+            console.log(err)
         }
 
         if (doc != null) {
@@ -68,6 +69,8 @@ let getAll=(db) =>{
         } else {
             io.emit('scoreUpdate',{data:data})
         }
+
+        db.close();
      });
 
     
