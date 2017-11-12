@@ -7,11 +7,13 @@ let myScore = 0;
 let myTime = 180;
 let playerName = 'John';
 let words = ["banana", "apple", "alternate", "boundary", "command", "gloves"];
-let commandHistory = []
+let commandHistory = [];
 let prevCommand = -1;
 let userid=null;
 
-console.log(words);
+$(document).ready(() => {
+    $('#nickNameInput').focus();
+});
 
 $('#commandInput').keypress(function (e) {
     if (e.which == 13) {
@@ -141,6 +143,7 @@ let startGame = () => {
     }, 1000);
 
     showWord();
+    $('#commandInput').focus();
 };
 
 
