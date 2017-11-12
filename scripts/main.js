@@ -5,46 +5,74 @@ let currentWord = '';
 let loadedWord = '';
 let myScore = 0;
 let myTime = 180;
-let playeName = 'John';
+let playerName = 'John';
 let words = ["banana", "apple", "alternate", "boundary", "command", "gloves"];
+let commandHistory = []
+let prevCommand = -1;
 
 console.log(words);
 
-$('#commandInput').keypress(function(e) {
-    if(e.which == 13) {
+$('#commandInput').keypress(function (e) {
+    if (e.which == 13) {
         processCommand($(this).val());
         $(this).val('');
     }
 });
 
-Array.prototype.shuffle = function() {
-  var i = this.length, j, temp;
-  if ( i == 0 ) return this;
-  while ( --i ) {
-     j = Math.floor( Math.random() * ( i + 1 ) );
-     temp = this[i];
-     this[i] = this[j];
-     this[j] = temp;
-  }
-  return this;
+$('#commandInput').keydown(function (e) {
+    if (commandHistory.length === 0) {
+        return;
+    }
+    if (e.which == 27) {
+        $(this).val('');
+    }
+    if (prevCommand === -1) {
+        prevCommand = commandHistory.length - 1;
+    }
+    if (prevCommand === commandHistory.length) {
+        prevCommand = 0;
+    }
+    console.log(prevCommand);
+    if (e.which == 38) {
+        $(this).val(commandHistory[prevCommand--]);
+    }
+    if (e.which == 40) {
+        $(this).val(commandHistory[prevCommand++]);
+    }
+});
+
+Array.prototype.shuffle = function () {
+    var i = this.length, j, temp;
+    if (i == 0) return this;
+    while (--i) {
+        j = Math.floor(Math.random() * (i + 1));
+        temp = this[i];
+        this[i] = this[j];
+        this[j] = temp;
+    }
+    return this;
 }
 
 let processCommand = (text) => {
     console.log(text);
+    commandHistory.push(text);
+    prevCommand = -1;
+    console.log(commandHistory);
     let tokens = text.split(' ');
-    if(tokens.length > 0){
-        if(tokens[0] == 'git') {
-            if(tokens[1] == 'add') {
+    if (tokens.length > 0) {
+        if (tokens[0] == 'git') {
+            if (tokens[1] == 'add') {
                 createjs.Sound.play("add");
                 currentWord += loadedWord.splited[tokens[2]];
+                $('#ck_' + tokens[2]).css('opacity', 0.6);
             }
-            else if(tokens[1] == 'commit') {
-                if(loadedWord.correct == currentWord) {
+            else if (tokens[1] == 'commit') {
+                if (loadedWord.correct == currentWord) {
                     console.log('correct!!');
                     myScore += loadedWord.points;
                     $('#score').html(myScore);
                 }
-                else{
+                else {
                     console.log('wrong!!');
                 }
                 currentWord = '';
@@ -57,8 +85,9 @@ let processCommand = (text) => {
 let addToPool = (chunks) => {
     $('#pool').html('');
     for (let i=0; i<chunks.length; i++){
-        console.log(chunks[i]);
-        let card = $("<div>", {id: 'ck_' + i, "class": "chunkcard"}).html(chunks[i]);
+        let cardHtml = '<div class="title">' + i + '</div>' + 
+        '<div class="box">' + chunks[i] + '</div>';
+        let card = $("<div>", {id: 'ck_' + i, "class": "chunkcard"}).html(cardHtml);
         $('#pool').append(card);
     }
 
@@ -70,9 +99,9 @@ let showWord = () => {
     let chunks = randomWord.match(/.{1,2}/g);
     chunks.shuffle();
     loadedWord = {
-        correct : randomWord,
-        splited : chunks,
-        points : chunks.length,
+        correct: randomWord,
+        splited: chunks,
+        points: chunks.length,
     };
 
     console.log(loadedWord);
@@ -104,7 +133,7 @@ let startGame = () => {
 
 
 let gameTick = () => {
-    if(myTime == 0) {
+    if (myTime == 0) {
         gameOver();
         return;
     }
@@ -118,6 +147,10 @@ let gameOver = () => {
     window.clearInterval(gameTicker);
     $('#gameScreen').hide();
     $('#endScreen').show();
+
+    socket.emit('finish', {playerName:playerName,score:myScore}); //set whatever data you want to save to the db
+
+
 };
 
 let loadSound = () => {
@@ -126,6 +159,22 @@ let loadSound = () => {
 }
 
 
+
 socket.on('connect', function(data) {
         
+});
+
+socket.on('scoreUpdate', function(res) {
+    console.log(res) //update leaderboard using this data
+    let result=''
+
+    let sorted =res.data.sort((a,b)=>{
+        return parseInt(b.score)-parseInt(a.score)
+    }).slice(0,10)
+    sorted.forEach((v)=>{
+        result += v.playerName+' : '+v.score +'<br>'
+    })
+
+    $('#leaderboard').html(result)
+
 });
