@@ -1,15 +1,16 @@
+
 const HOST = location.origin.replace(/^http/, 'ws')
 let socket = io.connect(HOST);
 let gameTicker = null;
 let currentWord = '';
 let loadedWord = '';
 let myScore = 0;
-let myTime = 180;
+let myTime = 2;
 let playerName = 'John';
 let words = ["banana", "apple", "alternate", "boundary", "command", "gloves"];
 let commandHistory = [];
 let prevCommand = -1;
-let userid=null;
+let userData=null;
 
 $(document).ready(() => {
     $('#nickNameInput').focus();
@@ -144,24 +145,30 @@ let showWord = () => {
 
 let startGame = () => {
     playerName = $('#nickNameInput').val();
-    myScore = 0;
-    myTime = 180;
+    if(playerName.length >= 3 && playerName.length <= 10) {
+        myScore = 0;
+        myTime = 180;
 
-    createjs.Sound.play("start");
+        createjs.Sound.play("start");
 
-    $('#startGame').hide();
-    $('#gameScreen').show();
-    $('#player').html(playerName);
-    $('#time').html(myTime);
-    $('#score').html(myScore);
-    socket.emit('playerConnect', playerName);
+        $('#startGame').hide();
+        $('#gameScreen').show();
+        $('#player').html(playerName);
+        $('#time').html(myTime);
+        $('#score').html(myScore);
+        socket.emit('playerConnect', playerName);
 
-    gameTicker = window.setInterval(() => {
-        gameTick();
-    }, 1000);
+        gameTicker = window.setInterval(() => {
+            gameTick();
+        }, 1000);
 
-    showWord();
-    $('#commandInput').focus();
+        showWord();
+        $('#commandInput').focus();
+    }
+    else{
+        alert('Please enter an username with 3-10 chars.');
+        $('#nickNameInput').focus();
+    }
 };
 
 
@@ -180,10 +187,9 @@ let gameOver = () => {
     $('#gameScreen').hide();
     $('#endScreen').show();
     $('#finalscore').html(myScore);
-    socket.emit('finish', {playerName:playerName,score:myScore}); //set whatever data you want to save to the db
-
-    if(userid){
-        var r= {_id:userid,playerName:playerName,score:myScore}
+    if(userData){
+        userData.score=myScore
+        var r= userData
     }else{
         r= {playerName:playerName,score:myScore}
     }
@@ -208,12 +214,13 @@ socket.on('scoreUpdate', function(res) {
     console.log("score updated")
     console.log(res) //update leaderboard using this data
     let result=''
-
-    let sorted =res.data.sort((a,b)=>{
+    
+    let sorted=res.data.sort((a,b)=>{
         return parseInt(b.score)-parseInt(a.score)
     }).slice(0,10)
+    
     sorted.forEach((v)=>{
-        result += v.playerName+' : '+v.score +'<br>'
+        result +='<tr><td class="name">'+ v.playerName+'</td> <td class="colon">:</td><td class="score">'+v.score +'</td></tr>'
     })
 
     $('#leaderboard').html(result)
@@ -221,5 +228,7 @@ socket.on('scoreUpdate', function(res) {
 });
 
 socket.on('player', (res) => {
-    userid=res.uid
+    
+    userData=res.userData
+
 });

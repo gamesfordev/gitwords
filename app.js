@@ -4,6 +4,7 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const port = process.env.PORT || 8080;
 const mongo=require('./services/mongoservice').mongo
+const ObjectId = require('mongodb').ObjectID;
 
 app.use(express.static(__dirname));
 
@@ -31,22 +32,26 @@ io.on('connection', function(client) {
             if(!err){
                 getAll(db)
             }
-            db.close();
         })
     });
 
     client.on('finish', (data) => {
+        console.log(data)
+        if(data._id)
+            data._id=ObjectId(data._id)
         mongo((err,db)=>{
             
             db.collection("score").save(data,{},(err, result) => {
                 if(!err){
                     console.log(data)
-                    client.emit('player',{uid:data._id})
+                    client.emit('player',{userData:data})
                     getAll(db)
                 }
-                db.close();
+                
             
                 });
+
+                
             })
     
     });
@@ -61,15 +66,23 @@ let getAll=(db) =>{
 
         if(err){
             console.log("error")
+            console.log(err)
         }
 
         if (doc != null) {
-           data.push(doc);
+            //console.log(doc)
+            data.push(doc);
         } else {
             io.emit('scoreUpdate',{data:data})
+            db.close()
         }
-     });
 
+       
+
+        
+     });
+     
+     
     
 
 }
