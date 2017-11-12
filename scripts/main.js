@@ -54,9 +54,21 @@ let processCommand = (text) => {
     }
 };
 
+let addToPool = (chunks) => {
+    $('#pool').html('');
+    for (let i=0; i<chunks.length; i++){
+        console.log(chunks[i]);
+        let card = $("<div>", {id: 'ck_' + i, "class": "chunkcard"}).html(chunks[i]);
+        $('#pool').append(card);
+    }
+
+
+};
+
 let showWord = () => {
     let randomWord = words[parseInt(Math.random() * 1000) % words.length];
-    let chunks = randomWord.match(/.{1,2}/g).shuffle();
+    let chunks = randomWord.match(/.{1,2}/g);
+    chunks.shuffle();
     loadedWord = {
         correct : randomWord,
         splited : chunks,
@@ -64,7 +76,9 @@ let showWord = () => {
     };
 
     console.log(loadedWord);
-    $('#pool').html(loadedWord.splited.toString());
+    //$('#pool').html(loadedWord.splited.toString());
+    console.log(chunks);
+    addToPool(chunks);
 };
 
 let startGame = () => {
@@ -102,6 +116,9 @@ let gameTick = () => {
 let gameOver = () => {
     console.log('Game over');
     window.clearInterval(gameTicker);
+    $('#gameScreen').hide();
+    $('#endScreen').show();
+
     socket.emit('finish', {playerName:playeName,score:myScore}); //set whatever data you want to save to the db
 
 
