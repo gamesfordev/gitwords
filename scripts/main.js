@@ -2,6 +2,9 @@
 const HOST = location.origin.replace(/^http/, 'ws')
 let socket = io.connect(HOST);
 let gameTicker = null;
+let animationTicker = null;
+let animPos = 0;
+let animDir = 1;
 let currentWord = '';
 let loadedWord = '';
 let myScore = 0;
@@ -136,16 +139,18 @@ let processCommand = (text) => {
 
 let addToPool = (chunks) => {
     $('#pool').html('');
+
     for (let i = 0; i < chunks.length; i++) {
         let cardHtml = '<div class="title">' + i + '</div>' +
             '<div class="box">' + chunks[i] + '</div>';
         let card = $("<div>", { id: 'ck_' + i, "class": "chunkcard" });
-        let leftPos = ((i + 1) / chunks.length) * 100;
+        let leftPos = (i / chunks.length) * 100 + 5;
         let topPos = 10 + (Math.random() * 1000) % 70;
 
         $(card).html(cardHtml);
         $(card).css('top', topPos + '%');
         $(card).css('margin-top', '-40px');
+        $(card).data('dir', '0.2');
 
         $(card).css('left', leftPos + '%');
 
@@ -186,14 +191,35 @@ let startGame = () => {
         $('#player').html(playerName);
         $('#time').html(myTime);
         $('#score').html(myScore);
+        Konsole.clear();
+        $('#pool').html('');
         socket.emit('playerConnect', playerName);
 
-        gameTicker = window.setInterval(() => {
-            gameTick();
-        }, 1000);
+        window.setTimeout(() => {
+            gameTicker = window.setInterval(() => {
+                gameTick();
+            }, 1000);
 
-        showWord();
-        $('#commandInput').focus();
+            animationTicker = setInterval(() => {
+                animationTick();
+            },100);
+
+
+            showWord();
+            $('#commandInput').focus();
+        },5000);
+
+        window.setTimeout(() => {
+            $('#pool').html('<h1>Ready?</h1>');
+        },1000);
+
+        window.setTimeout(() => {
+            $('#pool').html('<h1>Git ❤️️ and Words 💙</h1>');
+        },2000);
+
+        window.setTimeout(() => {
+            $('#pool').html('<h1>Start</h1>');
+        },3000);
     }
     else {
         alert('Please enter an username with 3-10 chars.');
@@ -214,6 +240,7 @@ let gameTick = () => {
 let gameOver = () => {
     console.log('Game over');
     window.clearInterval(gameTicker);
+    window.clearInterval(animationTicker);
     $('#gameScreen').hide();
     $('#endScreen').show();
     $('#finalscore').html(myScore);
@@ -227,6 +254,20 @@ let gameOver = () => {
     socket.emit('finish', r); //set whatever data you want to save to the db
 
 
+};
+
+let animationTick = () => {
+    $('#pool .chunkcard').each((i, element) => {
+        let pos = parseFloat(document.getElementById('ck_' + i).style.top);
+        let dir = parseFloat($(element).data('dir'));
+        console.log('dir',dir);
+        pos += dir;
+        if(pos < 10) $(element).data('dir', Math.abs(dir));
+        if(pos > 80) $(element).data('dir', -dir);
+
+        console.log(pos);
+        $(element).css('top', pos + '%' );
+    });
 };
 
 let loadSound = () => {

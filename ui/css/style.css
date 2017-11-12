@@ -153,6 +153,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     height: 20px;
 }
 
+#endScreen h2{
+    text-align: center;
+}
+
 .logo{
   width: 375px;
   margin: 20px 10px;
@@ -193,8 +197,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 }
 
 #pool {
-
     position: relative;
+}
+
+#pool h1 {
+    top: 50%;
+    left: 0%;
+    width: 100%;
+    text-align: center;
+    position: absolute;
 }
 
 .chunkcard {
