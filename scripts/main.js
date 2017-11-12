@@ -102,6 +102,9 @@ let gameTick = () => {
 let gameOver = () => {
     console.log('Game over');
     window.clearInterval(gameTicker);
+    socket.emit('finish', {playerName:playeName,score:myScore}); //set whatever data you want to save to the db
+
+
 };
 
 let loadSound = () => {
@@ -112,4 +115,8 @@ let loadSound = () => {
 
 socket.on('connect', function(data) {
         
+});
+
+socket.on('scoreUpdate', function(data) {
+    console.log(data) //update leaderboard using this data
 });
