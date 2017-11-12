@@ -57,8 +57,9 @@ let processCommand = (text) => {
 let addToPool = (chunks) => {
     $('#pool').html('');
     for (let i=0; i<chunks.length; i++){
-        console.log(chunks[i]);
-        let card = $("<div>", {id: 'ck_' + i, "class": "chunkcard"}).html(chunks[i]);
+        let cardHtml = '<div class="title">' + i + '</div>' + 
+        '<div class="box">' + chunks[i] + '</div>';
+        let card = $("<div>", {id: 'ck_' + i, "class": "chunkcard"}).html(cardHtml);
         $('#pool').append(card);
     }
 
