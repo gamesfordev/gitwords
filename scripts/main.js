@@ -88,8 +88,16 @@ let addToPool = (chunks) => {
     for (let i=0; i<chunks.length; i++){
         let cardHtml = '<div class="title">' + i + '</div>' + 
         '<div class="box">' + chunks[i] + '</div>';
-        let card = $("<div>", {id: 'ck_' + i, "class": "chunkcard"}).html(cardHtml);
-        $('#pool').append(card);
+        let card = $("<div>", {id: 'ck_' + i, "class": "chunkcard"});
+        $(card).html(cardHtml);
+        $(card).css('top','50%');
+        $(card).css('margin-top', '-40px');
+        let leftPos = ((i+1)/chunks.length) * 100 ;
+        $(card).css('left', leftPos + '%');
+        
+        window.setTimeout(() => {
+            $('#pool').append(card);
+        }, 200 * (i+1));
     }
 
 
@@ -97,7 +105,7 @@ let addToPool = (chunks) => {
 
 let showWord = () => {
     let randomWord = words[parseInt(Math.random() * 1000) % words.length];
-    let chunks = randomWord.match(/.{1,2}/g);
+    let chunks = randomWord.match(/.{1,3}/g);
     chunks.shuffle();
     loadedWord = {
         correct: randomWord,
