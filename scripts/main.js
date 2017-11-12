@@ -7,44 +7,71 @@ let myScore = 0;
 let myTime = 180;
 let playeName = 'John';
 let words = ["banana", "apple", "alternate", "boundary", "command", "gloves"];
+let commandHistory = []
+let prevCommand = -1;
 
 console.log(words);
 
-$('#commandInput').keypress(function(e) {
-    if(e.which == 13) {
+$('#commandInput').keypress(function (e) {
+    if (e.which == 13) {
         processCommand($(this).val());
         $(this).val('');
     }
 });
 
-Array.prototype.shuffle = function() {
-  var i = this.length, j, temp;
-  if ( i == 0 ) return this;
-  while ( --i ) {
-     j = Math.floor( Math.random() * ( i + 1 ) );
-     temp = this[i];
-     this[i] = this[j];
-     this[j] = temp;
-  }
-  return this;
+$('#commandInput').keydown(function (e) {
+    if (commandHistory.length === 0) {
+        return;
+    }
+    if (e.which == 27) {
+        $(this).val('');
+    }
+    if (prevCommand === -1) {
+        prevCommand = commandHistory.length - 1;
+    }
+    if (prevCommand === commandHistory.length) {
+        prevCommand = 0;
+    }
+    console.log(prevCommand);
+    if (e.which == 38) {
+        $(this).val(commandHistory[prevCommand--]);
+    }
+    if (e.which == 40) {
+        $(this).val(commandHistory[prevCommand++]);
+    }
+});
+
+Array.prototype.shuffle = function () {
+    var i = this.length, j, temp;
+    if (i == 0) return this;
+    while (--i) {
+        j = Math.floor(Math.random() * (i + 1));
+        temp = this[i];
+        this[i] = this[j];
+        this[j] = temp;
+    }
+    return this;
 }
 
 let processCommand = (text) => {
     console.log(text);
+    commandHistory.push(text);
+    prevCommand = -1;
+    console.log(commandHistory);
     let tokens = text.split(' ');
-    if(tokens.length > 0){
-        if(tokens[0] == 'git') {
-            if(tokens[1] == 'add') {
+    if (tokens.length > 0) {
+        if (tokens[0] == 'git') {
+            if (tokens[1] == 'add') {
                 createjs.Sound.play("add");
                 currentWord += loadedWord.splited[tokens[2]];
             }
-            else if(tokens[1] == 'commit') {
-                if(loadedWord.correct == currentWord) {
+            else if (tokens[1] == 'commit') {
+                if (loadedWord.correct == currentWord) {
                     console.log('correct!!');
                     myScore += loadedWord.points;
                     $('#score').html(myScore);
                 }
-                else{
+                else {
                     console.log('wrong!!');
                 }
                 currentWord = '';
@@ -58,9 +85,9 @@ let showWord = () => {
     let randomWord = words[parseInt(Math.random() * 1000) % words.length];
     let chunks = randomWord.match(/.{1,2}/g).shuffle();
     loadedWord = {
-        correct : randomWord,
-        splited : chunks,
-        points : chunks.length,
+        correct: randomWord,
+        splited: chunks,
+        points: chunks.length,
     };
 
     console.log(loadedWord);
@@ -90,7 +117,7 @@ let startGame = () => {
 
 
 let gameTick = () => {
-    if(myTime == 0) {
+    if (myTime == 0) {
         gameOver();
         return;
     }
@@ -110,6 +137,6 @@ let loadSound = () => {
 }
 
 
-socket.on('connect', function(data) {
-        
+socket.on('connect', function (data) {
+
 });
