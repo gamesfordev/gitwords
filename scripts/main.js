@@ -148,12 +148,11 @@ let startGame = () => {
 
 
 let gameTick = () => {
+    myTime--;
     if (myTime == 0) {
         gameOver();
         return;
     }
-    myTime--;
-    console.log('Time ' + myTime);
     $('#time').html(myTime);
 };
 
