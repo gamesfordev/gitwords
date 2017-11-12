@@ -7,11 +7,23 @@ let myScore = 0;
 let myTime = 180;
 let playerName = 'John';
 let words = ["banana", "apple", "alternate", "boundary", "command", "gloves"];
-let commandHistory = []
+let commandHistory = [];
 let prevCommand = -1;
 let userid=null;
 
-console.log(words);
+$(document).ready(() => {
+    $('#nickNameInput').focus();
+});
+
+window.onbeforeunload = () => {
+    return false;
+};
+
+let Konsole = {
+    log : (text) => {
+        $('#consoleOut').append('<div>' + text + '</div>');
+    }
+};
 
 $('#commandInput').keypress(function (e) {
     if (e.which == 13) {
@@ -66,6 +78,7 @@ let processCommand = (text) => {
                 createjs.Sound.play("add");
                 currentWord += loadedWord.splited[tokens[2]];
                 $('#ck_' + tokens[2]).css('opacity', 0.6);
+                Konsole.log('$ GitWords : current word is ' + currentWord);
             }
             else if (tokens[1] == 'commit') {
                 if (loadedWord.correct == currentWord) {
@@ -78,6 +91,13 @@ let processCommand = (text) => {
                 }
                 currentWord = '';
                 showWord();
+            }
+            else if(tokens[1] == 'reset') {
+                currentWord = '';
+                myScore -= 1;
+                myScore = myScore < 0 ? 0 : myScore;
+                $('#score').html(myScore); 
+                $('#pool .chunkcard').css('opacity', 1);
             }
         }
     }
@@ -141,16 +161,16 @@ let startGame = () => {
     }, 1000);
 
     showWord();
+    $('#commandInput').focus();
 };
 
 
 let gameTick = () => {
+    myTime--;
     if (myTime == 0) {
         gameOver();
         return;
     }
-    myTime--;
-    console.log('Time ' + myTime);
     $('#time').html(myTime);
 };
 
