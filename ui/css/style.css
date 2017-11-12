@@ -471,7 +471,7 @@ body {
     height :200px;
     /*background-color:#444444;*/
     position: fixed;
-    top: 50%;
+    top: 30%;
     left: 50%;
     margin-left: -200px;
     margin-top: -100px;
@@ -513,6 +513,12 @@ body {
 #startScreen .window .seperator {
     height: 20px;
 }
+.logo{
+  width: 375px;
+  margin: 20px 10px;
+  text-align: center;
+}
+
 .parent-wrapper{
   height: 50%;
 }
