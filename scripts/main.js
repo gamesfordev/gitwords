@@ -177,6 +177,8 @@ let startGame = () => {
         $('#player').html(playerName);
         $('#time').html(myTime);
         $('#score').html(myScore);
+        Konsole.clear();
+        $('#pool').html('');
         socket.emit('playerConnect', playerName);
 
         window.setTimeout(() => {
