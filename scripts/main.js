@@ -10,7 +10,7 @@ let playerName = 'John';
 let words = ["banana", "apple", "alternate", "boundary", "command", "gloves"];
 let commandHistory = [];
 let prevCommand = -1;
-let userData=null;
+let userData = null;
 
 $(document).ready(() => {
     $('#nickNameInput').focus();
@@ -21,11 +21,23 @@ window.onbeforeunload = () => {
 };
 
 let Konsole = {
-    log : (text) => {
+    log: (text) => {
         $('#consoleOut').append('<div>' + text + '</div>');
     },
-    clear : () => {
+    clear: () => {
         $('#consoleOut').html('');
+    },
+    tab: () => {
+        let texts = $('#commandInput').val().split(' ');
+        const character = texts[texts.length -1][0];
+        switch(character) {
+            case 'g' : texts[texts.length -1] = 'git';
+                break;
+            case 'a' : texts[texts.length -1] = 'add';
+                break;
+            case 'c' : texts[texts.length -1] = 'commit';
+        }
+        $('#commandInput').val(texts.join(' '));
     }
 };
 
@@ -37,7 +49,10 @@ $('#commandInput').keypress(function (e) {
 });
 
 $('#commandInput').keydown(function (e) {
-    if (commandHistory.length === 0) {
+    if (e.which == 9 || e.keyCode == 9) {
+        e.preventDefault();
+        Konsole.tab();
+    } else if (commandHistory.length === 0) {
         return;
     }
     if (e.which == 27) {
@@ -49,7 +64,6 @@ $('#commandInput').keydown(function (e) {
     if (prevCommand === commandHistory.length) {
         prevCommand = 0;
     }
-    console.log(prevCommand);
     if (e.which == 38) {
         $(this).val(commandHistory[prevCommand--]);
     }
@@ -96,14 +110,14 @@ let processCommand = (text) => {
                 currentWord = '';
                 showWord();
             }
-            else if(tokens[1] == 'reset') {
+            else if (tokens[1] == 'reset') {
                 currentWord = '';
                 myScore -= 1;
                 myScore = myScore < 0 ? 0 : myScore;
-                $('#score').html(myScore); 
+                $('#score').html(myScore);
                 $('#pool .chunkcard').css('opacity', 1);
             }
-            else if(tokens[1] == 'clear' || tokens[1] == 'cls') {
+            else if (tokens[1] == 'clear' || tokens[1] == 'cls') {
                 Konsole.clear();
             }
         }
@@ -112,22 +126,22 @@ let processCommand = (text) => {
 
 let addToPool = (chunks) => {
     $('#pool').html('');
-    for (let i=0; i<chunks.length; i++){
-        let cardHtml = '<div class="title">' + i + '</div>' + 
-        '<div class="box">' + chunks[i] + '</div>';
-        let card = $("<div>", {id: 'ck_' + i, "class": "chunkcard"});
-        let leftPos = ((i+1)/chunks.length) * 100;
+    for (let i = 0; i < chunks.length; i++) {
+        let cardHtml = '<div class="title">' + i + '</div>' +
+            '<div class="box">' + chunks[i] + '</div>';
+        let card = $("<div>", { id: 'ck_' + i, "class": "chunkcard" });
+        let leftPos = ((i + 1) / chunks.length) * 100;
         let topPos = 10 + (Math.random() * 1000) % 70;
 
         $(card).html(cardHtml);
-        $(card).css('top',topPos + '%');
+        $(card).css('top', topPos + '%');
         $(card).css('margin-top', '-40px');
-        
+
         $(card).css('left', leftPos + '%');
-        
+
         window.setTimeout(() => {
             $('#pool').append(card);
-        }, 200 * (i+1));
+        }, 200 * (i + 1));
     }
 
 
@@ -151,7 +165,7 @@ let showWord = () => {
 
 let startGame = () => {
     playerName = $('#nickNameInput').val();
-    if(playerName.length >= 3 && playerName.length <= 10) {
+    if (playerName.length >= 3 && playerName.length <= 10) {
         myScore = 0;
         myTime = 180;
 
@@ -171,7 +185,7 @@ let startGame = () => {
         showWord();
         $('#commandInput').focus();
     }
-    else{
+    else {
         alert('Please enter an username with 3-10 chars.');
         $('#nickNameInput').focus();
     }
@@ -193,14 +207,14 @@ let gameOver = () => {
     $('#gameScreen').hide();
     $('#endScreen').show();
     $('#finalscore').html(myScore);
-    if(userData){
-        userData.score=myScore
-        var r= userData
-    }else{
-        r= {playerName:playerName,score:myScore}
+    if (userData) {
+        userData.score = myScore
+        var r = userData
+    } else {
+        r = { playerName: playerName, score: myScore }
     }
 
-    socket.emit('finish',r); //set whatever data you want to save to the db
+    socket.emit('finish', r); //set whatever data you want to save to the db
 
 
 };
@@ -212,21 +226,21 @@ let loadSound = () => {
 
 
 
-socket.on('connect', function(data) {
-        
+socket.on('connect', function (data) {
+
 });
 
-socket.on('scoreUpdate', function(res) {
+socket.on('scoreUpdate', function (res) {
     console.log("score updated")
     console.log(res) //update leaderboard using this data
-    let result=''
-    
-    let sorted=res.data.sort((a,b)=>{
-        return parseInt(b.score)-parseInt(a.score)
-    }).slice(0,10)
-    
-    sorted.forEach((v)=>{
-        result +='<tr><td class="name">'+ v.playerName+'</td> <td class="colon">:</td><td class="score">'+v.score +'</td></tr>'
+    let result = ''
+
+    let sorted = res.data.sort((a, b) => {
+        return parseInt(b.score) - parseInt(a.score)
+    }).slice(0, 10)
+
+    sorted.forEach((v) => {
+        result += '<tr><td class="name">' + v.playerName + '</td> <td class="colon">:</td><td class="score">' + v.score + '</td></tr>'
     })
 
     $('#leaderboard').html(result)
@@ -234,7 +248,7 @@ socket.on('scoreUpdate', function(res) {
 });
 
 socket.on('player', (res) => {
-    
-    userData=res.userData
+
+    userData = res.userData
 
 });
