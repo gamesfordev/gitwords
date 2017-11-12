@@ -158,9 +158,15 @@ body {
 
 }
 
+#pool {
+
+    position: relative;
+}
+
 .chunkcard {
     width: 80px;
     height: 80px;
+    position: absolute;
 }
 
 .chunkcard .title {
