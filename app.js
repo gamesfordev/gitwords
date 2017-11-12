@@ -26,7 +26,13 @@ server.listen(port, () => {
 
 io.on('connection', function(client) {  
     client.on('playerConnect', (playerName) => {
-    	console.log(playerName + ' Connected!');
+        console.log(playerName + ' Connected!');
+        mongo((err,db)=>{
+            if(!err){
+                getAll(db)
+            }
+            db.close();
+        })
     });
 
     client.on('finish', (data) => {
@@ -34,26 +40,7 @@ io.on('connection', function(client) {
             
             db.collection("score").save(data,{w:1},(err, result) => {
                 if(!err){
-                    const cursor=db.collection("score").find();
-                    let data=[]
-                    
-                    console.log(cursor)
-
-                    cursor.each((err, doc) => {
-
-                        if(err){
-                            console.error("error")
-                        }
-
-                        if (doc != null) {
-                           data.push(doc);
-                        } else {
-                            io.emit('scoreUpdate',{data:data})
-                        }
-                     });
-
-                    
-
+                    getAll(db)
                 }
                 db.close();
             
@@ -62,3 +49,27 @@ io.on('connection', function(client) {
     
     });
 });
+
+
+let getAll=(db) =>{
+    const cursor=db.collection("score").find();
+    let data=[]
+    
+    console.log(cursor)
+
+    cursor.each((err, doc) => {
+
+        if(err){
+            console.log("error")
+        }
+
+        if (doc != null) {
+           data.push(doc);
+        } else {
+            io.emit('scoreUpdate',{data:data})
+        }
+     });
+
+    
+
+}

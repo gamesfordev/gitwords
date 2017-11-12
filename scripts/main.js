@@ -134,6 +134,16 @@ socket.on('connect', function(data) {
         
 });
 
-socket.on('scoreUpdate', function(data) {
-    console.log(data) //update leaderboard using this data
+socket.on('scoreUpdate', function(res) {
+    console.log(res) //update leaderboard using this data
+    let result=''
+
+
+    res.data.forEach((v)=>{
+        result += v.playerName+' : '+v.score +'<br>'
+    })
+
+    $('#leaderboard').html(result)
+
+
 });
