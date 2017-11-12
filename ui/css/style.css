@@ -604,3 +604,21 @@ body {
   outline: none;
 
 }
+
+.chunkcard {
+    width: 80px;
+    height: 80px;
+}
+
+.chunkcard .title {
+    font-size: 24px;
+    text-align: center;
+    background-color: #5555bb;
+    color: white;
+}
+
+.chunkcard .box {
+    font-size: 24px;
+    text-align: center;
+    background-color: #bbbbee;
+}

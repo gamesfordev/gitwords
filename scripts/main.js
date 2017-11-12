@@ -37,6 +37,7 @@ let processCommand = (text) => {
             if(tokens[1] == 'add') {
                 createjs.Sound.play("add");
                 currentWord += loadedWord.splited[tokens[2]];
+                $('#ck_' + tokens[2]).hide();
             }
             else if(tokens[1] == 'commit') {
                 if(loadedWord.correct == currentWord) {
@@ -57,8 +58,9 @@ let processCommand = (text) => {
 let addToPool = (chunks) => {
     $('#pool').html('');
     for (let i=0; i<chunks.length; i++){
-        console.log(chunks[i]);
-        let card = $("<div>", {id: 'ck_' + i, "class": "chunkcard"}).html(chunks[i]);
+        let cardHtml = '<div class="title">' + i + '</div>' + 
+        '<div class="box">' + chunks[i] + '</div>';
+        let card = $("<div>", {id: 'ck_' + i, "class": "chunkcard"}).html(cardHtml);
         $('#pool').append(card);
     }
 
