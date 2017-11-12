@@ -40,16 +40,32 @@ io.on('connection', function(client) {
         if(data._id)
             data._id=ObjectId(data._id)
         mongo((err,db)=>{
-            
-            db.collection("score").save(data,{},(err, result) => {
-                if(!err){
-                    console.log(data)
-                    client.emit('player',{userData:data})
+
+            db.collection("score").findOne({playerName:data.playerName}).then((err, doc)=>{
+                if(err){
+                    console.log("error")
+                    console.log(err)
+                }
+        
+                if (doc != null) {
+                    if(parseInt(doc.score) < parseInt(data.score)){
+                        db.collection("score").save(data,{},(err, result) => {
+                            if(!err){
+                                console.log(data)
+                                client.emit('player',{userData:data})
+                                getAll(db)
+                            }
+                            
+                        
+                            });
+                    }
+                } else {
+                    client.emit('player',{userData:doc})
                     getAll(db)
                 }
-                
+            })
             
-                });
+            
 
                 
             })
