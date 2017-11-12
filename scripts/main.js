@@ -146,7 +146,7 @@ let showWord = () => {
 let startGame = () => {
     playerName = $('#nickNameInput').val();
     myScore = 0;
-    myTime = 1;
+    myTime = 180;
 
     createjs.Sound.play("start");
 
