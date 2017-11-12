@@ -253,7 +253,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
   font-weight: 700;  
 }
 #leaderboard .name{
-  float: left
+
 }
 #leaderboard .colon{
   min-width: 10px;
