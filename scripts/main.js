@@ -214,7 +214,7 @@ socket.on('scoreUpdate', function(res) {
     }).slice(0,10)
     
     sorted.forEach((v)=>{
-        result += v.playerName+' : '+v.score +'<br>'
+        result +='<tr><td class="name">'+ v.playerName+'</td> <td class="colon">:</td><td class="score">'+v.score +'</td></tr>'
     })
 
     $('#leaderboard').html(result)
