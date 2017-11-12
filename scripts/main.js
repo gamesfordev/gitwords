@@ -5,7 +5,7 @@ let currentWord = '';
 let loadedWord = '';
 let myScore = 0;
 let myTime = 180;
-let playeName = 'John';
+let playerName = 'John';
 let words = ["banana", "apple", "alternate", "boundary", "command", "gloves"];
 let commandHistory = []
 let prevCommand = -1;
@@ -64,6 +64,7 @@ let processCommand = (text) => {
             if (tokens[1] == 'add') {
                 createjs.Sound.play("add");
                 currentWord += loadedWord.splited[tokens[2]];
+                $('#ck_' + tokens[2]).css('opacity', 0.6);
             }
             else if (tokens[1] == 'commit') {
                 if (loadedWord.correct == currentWord) {
@@ -81,9 +82,22 @@ let processCommand = (text) => {
     }
 };
 
+let addToPool = (chunks) => {
+    $('#pool').html('');
+    for (let i=0; i<chunks.length; i++){
+        let cardHtml = '<div class="title">' + i + '</div>' + 
+        '<div class="box">' + chunks[i] + '</div>';
+        let card = $("<div>", {id: 'ck_' + i, "class": "chunkcard"}).html(cardHtml);
+        $('#pool').append(card);
+    }
+
+
+};
+
 let showWord = () => {
     let randomWord = words[parseInt(Math.random() * 1000) % words.length];
-    let chunks = randomWord.match(/.{1,2}/g).shuffle();
+    let chunks = randomWord.match(/.{1,2}/g);
+    chunks.shuffle();
     loadedWord = {
         correct: randomWord,
         splited: chunks,
@@ -91,7 +105,9 @@ let showWord = () => {
     };
 
     console.log(loadedWord);
-    $('#pool').html(loadedWord.splited.toString());
+    //$('#pool').html(loadedWord.splited.toString());
+    console.log(chunks);
+    addToPool(chunks);
 };
 
 let startGame = () => {
@@ -129,6 +145,12 @@ let gameTick = () => {
 let gameOver = () => {
     console.log('Game over');
     window.clearInterval(gameTicker);
+    $('#gameScreen').hide();
+    $('#endScreen').show();
+
+    socket.emit('finish', {playerName:playerName,score:myScore}); //set whatever data you want to save to the db
+
+
 };
 
 let loadSound = () => {
@@ -137,6 +159,22 @@ let loadSound = () => {
 }
 
 
-socket.on('connect', function (data) {
+
+socket.on('connect', function(data) {
+        
+});
+
+socket.on('scoreUpdate', function(res) {
+    console.log(res) //update leaderboard using this data
+    let result=''
+
+    let sorted =res.data.sort((a,b)=>{
+        b.score-a.score
+    }).slice(0,10)
+    sorted.forEach((v)=>{
+        result += v.playerName+' : '+v.score +'<br>'
+    })
+
+    $('#leaderboard').html(result)
 
 });
