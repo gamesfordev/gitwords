@@ -169,7 +169,7 @@ socket.on('scoreUpdate', function(res) {
     let result=''
 
     let sorted =res.data.sort((a,b)=>{
-        b.score-a.score
+        return parseInt(b.score)-parseInt(a.score)
     }).slice(0,10)
     sorted.forEach((v)=>{
         result += v.playerName+' : '+v.score +'<br>'
