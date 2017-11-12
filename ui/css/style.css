@@ -170,6 +170,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
   background: #383838;
   bottom:0px;
   height: 60%;
+  font-family: monospace;
 }
 .terminal-wrapper{
   overflow: scroll;
