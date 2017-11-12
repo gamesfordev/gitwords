@@ -37,7 +37,7 @@ let Konsole = {
                 break;
             case 'c': texts[texts.length - 1] = 'commit';
                 break;
-            case 'cl' : texts[texts.length - 1] = 'clear';
+            case 'cl': texts[texts.length - 1] = 'clear';
         }
         $('#commandInput').val(texts.join(' '));
     }
@@ -95,24 +95,33 @@ let processCommand = (text) => {
     if (tokens.length > 0) {
         if (tokens[0] == 'git') {
             if (tokens[1] == 'add') {
-                createjs.Sound.play("add");
-                currentWord += loadedWord.splited[tokens[2]];
-                $('#ck_' + tokens[2]).css('opacity', 0.6);
-                Konsole.log('$ GitWords : current word is ' + currentWord);
+                if (tokens[2] == null) {
+                    Konsole.log('$ GitWords : enter the index of the word');
+                    createjs.Sound.play("warning");
+                } else {
+                    currentWord += loadedWord.splited[tokens[2]];
+                    $('#ck_' + tokens[2]).css('opacity', 0.6);
+                    Konsole.log('$ GitWords : current word is ' + currentWord);
+                    createjs.Sound.play("add");
+                }
             }
             else if (tokens[1] == 'commit') {
                 if (loadedWord.correct == currentWord) {
-                    console.log('correct!!');
+                    Konsole.log('$ GitWords : Word is correct !!!!');
+                    createjs.Sound.play("csuccess");
                     myScore += loadedWord.points;
                     $('#score').html(myScore);
                 }
                 else {
-                    console.log('wrong!!');
+                    Konsole.log('$ GitWords : Word is not correct !!!!');
+                    createjs.Sound.play("warning");
                 }
                 currentWord = '';
                 showWord();
             }
             else if (tokens[1] == 'reset') {
+                createjs.Sound.play("reset");
+                Konsole.log('$ GitWords : Word has been resetted !!!');
                 currentWord = '';
                 myScore -= 1;
                 myScore = myScore < 0 ? 0 : myScore;
@@ -223,6 +232,9 @@ let gameOver = () => {
 let loadSound = () => {
     createjs.Sound.registerSound("/assets/sounds/start.ogg", "start");
     createjs.Sound.registerSound("/assets/sounds/add.ogg", "add");
+    createjs.Sound.registerSound("/assets/sounds/warning.mp3", "warning");
+    createjs.Sound.registerSound("/assets/sounds/commitSuccess.mp3", "csuccess");
+    createjs.Sound.registerSound("/assets/sounds/reset.mp3", "reset");
 }
 
 
