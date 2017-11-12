@@ -131,7 +131,7 @@ let addToPool = (chunks) => {
         let cardHtml = '<div class="title">' + i + '</div>' +
             '<div class="box">' + chunks[i] + '</div>';
         let card = $("<div>", { id: 'ck_' + i, "class": "chunkcard" });
-        let leftPos = (i / chunks.length) * 100;
+        let leftPos = (i / chunks.length) * 100 + 5;
         let topPos = 10 + (Math.random() * 1000) % 70;
 
         $(card).html(cardHtml);
