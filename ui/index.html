@@ -15,6 +15,7 @@
 </head>
 
 <body onload="loadSound()">
+    <audio id="player" loop="true" src="/assets/sounds/background.mp3"></audio>
         
     <div id="startScreen">
         <div class="window">
@@ -49,7 +50,7 @@
                     <div class="col-md-12">
                         <div class="well">
                             <div class="terminal">
-                                <div id="consoleOut" style="color:white; /* please remove this and add to css*/"></div>
+                                <div id="consoleOut" style="color:white;"></div>
                                 <input class="input-background" type="text" id="commandInput" onblur="this.focus()" autofocus />
                             </div>
                         </div>
@@ -66,7 +67,7 @@
                         <span id="time"></span>
                     </h3>
                     <h3>Score :
-                        <span id="score"></span>
+                        <b><span id="score"></span></b>
                     </h3>
                     <br/>
 

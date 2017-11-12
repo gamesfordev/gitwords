@@ -10,7 +10,7 @@ let loadedWord = '';
 let myScore = 0;
 let myTime = 2;
 let playerName = 'John';
-let words = ["serverless", "nodeknockout", "repository"];
+let words = ["serverless", "nodeknockout", "repository", "deploy", "GitHub", "semicolon", "bootstrap", "heroku", "middleware","algorithm"];
 let commandHistory = [];
 let prevCommand = -1;
 let userData = null;
@@ -89,8 +89,12 @@ Array.prototype.shuffle = function () {
     return this;
 }
 
+let secToDisplay = () => {
+    return '<b>' + Math.floor(myTime / 60) + '</b>min <b>' + (myTime - Math.floor(myTime/60) * 60) + '</b>sec';
+};
+
 let processCommand = (text) => {
-    console.log(text);
+    //console.log(text);
     commandHistory.push(text);
     prevCommand = -1;
     console.log(commandHistory);
@@ -175,13 +179,14 @@ let showWord = () => {
         points: chunks.length,
     };
 
-    console.log(loadedWord);
+    //console.log(loadedWord);
     //$('#pool').html(loadedWord.splited.toString());
-    console.log(chunks);
+    //console.log(chunks);
     addToPool(chunks);
 };
 
 let startGame = () => {
+    document.getElementById('player').play();
     playerName = $('#nickNameInput').val();
     if (playerName.length >= 3 && playerName.length <= 10) {
         myScore = 0;
@@ -192,7 +197,7 @@ let startGame = () => {
         $('#startGame').hide();
         $('#gameScreen').show();
         $('#player').html(playerName);
-        $('#time').html(myTime);
+        $('#time').html(secToDisplay(myTime));
         $('#score').html(myScore);
         Konsole.clear();
         $('#pool').html('');
@@ -237,10 +242,11 @@ let gameTick = () => {
         gameOver();
         return;
     }
-    $('#time').html(myTime);
+    $('#time').html(secToDisplay(myTime));
 };
 
 let gameOver = () => {
+    document.getElementById('player').pause();
     console.log('Game over');
     window.clearInterval(gameTicker);
     window.clearInterval(animationTicker);
@@ -264,12 +270,12 @@ let animationTick = () => {
         if($(element).data('mov') == 'yes') {
             let pos = parseFloat(document.getElementById('ck_' + i).style.top);
             let dir = parseFloat($(element).data('dir'));
-            console.log('dir',dir);
+            //console.log('dir',dir);
             pos += dir;
             if(pos < 10) $(element).data('dir', Math.abs(dir));
             if(pos > 80) $(element).data('dir', -dir);
 
-            console.log(pos);
+            //console.log(pos);
             $(element).css('top', pos + '%' );
         }
     });
@@ -291,7 +297,7 @@ socket.on('connect', function (data) {
 
 socket.on('scoreUpdate', function (res) {
     console.log("score updated")
-    console.log(res) //update leaderboard using this data
+    //console.log(res) //update leaderboard using this data
     let result = ''
 
     let sorted = res.data.sort((a, b) => {
