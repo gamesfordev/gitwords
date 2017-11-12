@@ -4,7 +4,7 @@ let gameTicker = null;
 let currentWord = '';
 let loadedWord = '';
 let myScore = 0;
-let myTime = 180;
+let myTime = 2;
 let playerName = 'John';
 let words = ["banana", "apple", "alternate", "boundary", "command", "gloves"];
 let commandHistory = [];
@@ -145,7 +145,7 @@ let showWord = () => {
 let startGame = () => {
     playerName = $('#nickNameInput').val();
     myScore = 0;
-    myTime = 180;
+    myTime = 2;
 
     createjs.Sound.play("start");
 

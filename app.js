@@ -31,7 +31,6 @@ io.on('connection', function(client) {
             if(!err){
                 getAll(db)
             }
-            db.close();
         })
     });
 
@@ -47,6 +46,8 @@ io.on('connection', function(client) {
                 
             
                 });
+
+                
             })
     
     });
@@ -68,11 +69,15 @@ let getAll=(db) =>{
            data.push(doc);
         } else {
             io.emit('scoreUpdate',{data:data})
+            db.close()
         }
 
-        db.close();
-     });
+       
 
+        
+     });
+     
+     
     
 
 }
