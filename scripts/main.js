@@ -155,7 +155,7 @@ let gameOver = () => {
     window.clearInterval(gameTicker);
     $('#gameScreen').hide();
     $('#endScreen').show();
-
+    $('#finalscore').html(myScore);
     socket.emit('finish', {playerName:playerName,score:myScore}); //set whatever data you want to save to the db
 
 
