@@ -10,7 +10,7 @@ let loadedWord = '';
 let myScore = 0;
 let myTime = 2;
 let playerName = 'John';
-let words = ["serverless", "nodeknockout", "repository"];
+let words = ["serverless", "nodeknockout", "repository", "deploy", "GitHub", "semicolon", "bootstrap", "heroku", "middleware","algorithm"];
 let commandHistory = [];
 let prevCommand = -1;
 let userData = null;
@@ -186,6 +186,7 @@ let showWord = () => {
 };
 
 let startGame = () => {
+    document.getElementById('player').play();
     playerName = $('#nickNameInput').val();
     if (playerName.length >= 3 && playerName.length <= 10) {
         myScore = 0;
@@ -245,6 +246,7 @@ let gameTick = () => {
 };
 
 let gameOver = () => {
+    document.getElementById('player').pause();
     console.log('Game over');
     window.clearInterval(gameTicker);
     window.clearInterval(animationTicker);
