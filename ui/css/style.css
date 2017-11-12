@@ -263,3 +263,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 #consoleOut{
     margin-left: 10px;
 }
+
+#leaderboard .score {
+  font-size:18px;
+}
