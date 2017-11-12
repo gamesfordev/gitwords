@@ -15,7 +15,7 @@ $(document).ready(() => {
     $('#nickNameInput').focus();
 });
 
-window.onbeforeunload = () => {;
+window.onbeforeunload = () => {
     return false;
 };
 
@@ -84,6 +84,13 @@ let processCommand = (text) => {
                 }
                 currentWord = '';
                 showWord();
+            }
+            else if(tokens[1] == 'reset') {
+                currentWord = '';
+                myScore -= 1;
+                myScore = myScore < 0 ? 0 : myScore;
+                $('#score').html(myScore); 
+                $('#pool .chunkcard').css('opacity', 1);
             }
         }
     }
