@@ -3,8 +3,6 @@ const HOST = location.origin.replace(/^http/, 'ws')
 let socket = io.connect(HOST);
 let gameTicker = null;
 let animationTicker = null;
-let animPos = 0;
-let animDir = 1;
 let currentWord = '';
 let loadedWord = '';
 let myScore = 0;
@@ -139,6 +137,12 @@ let processCommand = (text) => {
             }
         } else if (tokens[0] == 'clear' || tokens[0] == 'cls') {
             Konsole.clear();
+        } else if (tokens[0] == 'music') {
+            if (tokens[1] == 'on') {
+                document.getElementById('musicPlayer').play();
+            } else if(tokens[1] == 'off') {
+                document.getElementById('musicPlayer').pause();
+            }
         }
     }
 };
@@ -186,7 +190,7 @@ let showWord = () => {
 };
 
 let startGame = () => {
-    document.getElementById('player').play();
+    document.getElementById('musicPlayer').play();
     playerName = $('#nickNameInput').val();
     if (playerName.length >= 3 && playerName.length <= 10) {
         myScore = 0;
@@ -246,7 +250,7 @@ let gameTick = () => {
 };
 
 let gameOver = () => {
-    document.getElementById('player').pause();
+    document.getElementById('musicPlayer').pause();
     console.log('Game over');
     window.clearInterval(gameTicker);
     window.clearInterval(animationTicker);
