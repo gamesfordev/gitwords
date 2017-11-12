@@ -29,13 +29,15 @@ let Konsole = {
     },
     tab: () => {
         let texts = $('#commandInput').val().split(' ');
-        const character = texts[texts.length -1][0];
-        switch(character) {
-            case 'g' : texts[texts.length -1] = 'git';
+        const character = texts[texts.length - 1][0];
+        switch (character) {
+            case 'g': texts[texts.length - 1] = 'git';
                 break;
-            case 'a' : texts[texts.length -1] = 'add';
+            case 'a': texts[texts.length - 1] = 'add';
                 break;
-            case 'c' : texts[texts.length -1] = 'commit';
+            case 'c': texts[texts.length - 1] = 'commit';
+                break;
+            case 'cl' : texts[texts.length - 1] = 'clear';
         }
         $('#commandInput').val(texts.join(' '));
     }
@@ -117,9 +119,8 @@ let processCommand = (text) => {
                 $('#score').html(myScore);
                 $('#pool .chunkcard').css('opacity', 1);
             }
-            else if (tokens[1] == 'clear' || tokens[1] == 'cls') {
-                Konsole.clear();
-            }
+        } else if (tokens[0] == 'clear' || tokens[0] == 'cls') {
+            Konsole.clear();
         }
     }
 };
