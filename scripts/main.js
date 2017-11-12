@@ -1,3 +1,4 @@
+
 const HOST = location.origin.replace(/^http/, 'ws')
 let socket = io.connect(HOST);
 let gameTicker = null;
@@ -9,7 +10,7 @@ let playerName = 'John';
 let words = ["banana", "apple", "alternate", "boundary", "command", "gloves"];
 let commandHistory = [];
 let prevCommand = -1;
-let userid=null;
+let userData=null;
 
 $(document).ready(() => {
     $('#nickNameInput').focus();
@@ -145,7 +146,7 @@ let showWord = () => {
 let startGame = () => {
     playerName = $('#nickNameInput').val();
     myScore = 0;
-    myTime = 180;
+    myTime = 1;
 
     createjs.Sound.play("start");
 
@@ -180,10 +181,9 @@ let gameOver = () => {
     $('#gameScreen').hide();
     $('#endScreen').show();
     $('#finalscore').html(myScore);
-    socket.emit('finish', {playerName:playerName,score:myScore}); //set whatever data you want to save to the db
-
-    if(userid){
-        var r= {_id:userid,playerName:playerName,score:myScore}
+    if(userData){
+        userData.score=myScore
+        var r= userData
     }else{
         r= {playerName:playerName,score:myScore}
     }
@@ -208,10 +208,11 @@ socket.on('scoreUpdate', function(res) {
     console.log("score updated")
     console.log(res) //update leaderboard using this data
     let result=''
-
-    let sorted =res.data.sort((a,b)=>{
+    
+    let sorted=res.data.sort((a,b)=>{
         return parseInt(b.score)-parseInt(a.score)
     }).slice(0,10)
+    
     sorted.forEach((v)=>{
         result += v.playerName+' : '+v.score +'<br>'
     })
@@ -221,5 +222,7 @@ socket.on('scoreUpdate', function(res) {
 });
 
 socket.on('player', (res) => {
-    userid=res.uid
+    
+    userData=res.userData
+
 });
