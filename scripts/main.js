@@ -139,6 +139,12 @@ let processCommand = (text) => {
             }
         } else if (tokens[0] == 'clear' || tokens[0] == 'cls') {
             Konsole.clear();
+        } else if (tokens[0] == 'music') {
+            if (tokens[1] == 'on') {
+                document.getElementById('musicPlayer').play();
+            } else if(tokens[1] == 'off') {
+                document.getElementById('musicPlayer').pause();
+            }
         }
     }
 };
