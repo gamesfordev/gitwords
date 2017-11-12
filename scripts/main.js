@@ -19,6 +19,12 @@ window.onbeforeunload = () => {
     return false;
 };
 
+let Konsole = {
+    log : (text) => {
+        $('#consoleOut').append('<div>' + text + '</div>');
+    }
+};
+
 $('#commandInput').keypress(function (e) {
     if (e.which == 13) {
         processCommand($(this).val());
@@ -72,6 +78,7 @@ let processCommand = (text) => {
                 createjs.Sound.play("add");
                 currentWord += loadedWord.splited[tokens[2]];
                 $('#ck_' + tokens[2]).css('opacity', 0.6);
+                Konsole.log('$ GitWords : current word is ' + currentWord);
             }
             else if (tokens[1] == 'commit') {
                 if (loadedWord.correct == currentWord) {
