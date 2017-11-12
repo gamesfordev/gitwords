@@ -10,7 +10,7 @@ let loadedWord = '';
 let myScore = 0;
 let myTime = 2;
 let playerName = 'John';
-let words = ["banana", "apple", "alternate", "boundary", "command", "gloves"];
+let words = ["serverless", "nodeknockout", "repository"];
 let commandHistory = [];
 let prevCommand = -1;
 let userData = null;
@@ -104,6 +104,7 @@ let processCommand = (text) => {
                 } else {
                     currentWord += loadedWord.splited[tokens[2]];
                     $('#ck_' + tokens[2]).css('opacity', 0.6);
+                    $('#ck_' + tokens[2]).data('mov', 'no');
                     Konsole.log('$ GitWords : current word is ' + currentWord);
                     createjs.Sound.play("add");
                 }
@@ -130,6 +131,7 @@ let processCommand = (text) => {
                 myScore = myScore < 0 ? 0 : myScore;
                 $('#score').html(myScore);
                 $('#pool .chunkcard').css('opacity', 1);
+                $('#pool .chunkcard').data('mov', 'yes');
             }
         } else if (tokens[0] == 'clear' || tokens[0] == 'cls') {
             Konsole.clear();
@@ -151,6 +153,7 @@ let addToPool = (chunks) => {
         $(card).css('top', topPos + '%');
         $(card).css('margin-top', '-40px');
         $(card).data('dir', '0.2');
+        $(card).data('mov', 'yes');
 
         $(card).css('left', leftPos + '%');
 
@@ -260,15 +263,17 @@ let gameOver = () => {
 
 let animationTick = () => {
     $('#pool .chunkcard').each((i, element) => {
-        let pos = parseFloat(document.getElementById('ck_' + i).style.top);
-        let dir = parseFloat($(element).data('dir'));
-        console.log('dir',dir);
-        pos += dir;
-        if(pos < 10) $(element).data('dir', Math.abs(dir));
-        if(pos > 80) $(element).data('dir', -dir);
+        if($(element).data('mov') == 'yes') {
+            let pos = parseFloat(document.getElementById('ck_' + i).style.top);
+            let dir = parseFloat($(element).data('dir'));
+            console.log('dir',dir);
+            pos += dir;
+            if(pos < 10) $(element).data('dir', Math.abs(dir));
+            if(pos > 80) $(element).data('dir', -dir);
 
-        console.log(pos);
-        $(element).css('top', pos + '%' );
+            console.log(pos);
+            $(element).css('top', pos + '%' );
+        }
     });
 };
 
@@ -297,7 +302,8 @@ socket.on('scoreUpdate', function (res) {
     let i = 1;
 
     sorted.forEach((v) => {
-        result += '<tr><td class="name" align="left">' + i + '. ' + v.playerName + '</td><td class="score" align="right"><span class="badge badge-success">' + v.score + ' PTS </a></td></tr>'
+        let rank = i <= 3 ? 'danger' : 'success';
+        result += '<tr><td class="name" align="left">' + i + '. ' + v.playerName + '</td><td class="score" align="right"><span class="badge badge-' + rank + '">' + v.score + ' PTS </a></td></tr>'
         i++;
     })
 
