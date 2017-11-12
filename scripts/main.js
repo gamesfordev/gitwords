@@ -182,7 +182,7 @@ let showWord = () => {
 };
 
 let startGame = () => {
-    document.getElementById('player').play();
+    document.getElementById('musicPlayer').play();
     playerName = $('#nickNameInput').val();
     if (playerName.length >= 3 && playerName.length <= 10) {
         myScore = 0;
@@ -242,7 +242,7 @@ let gameTick = () => {
 };
 
 let gameOver = () => {
-    document.getElementById('player').pause();
+    document.getElementById('musicPlayer').pause();
     console.log('Game over');
     window.clearInterval(gameTicker);
     window.clearInterval(animationTicker);
