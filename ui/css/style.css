@@ -167,6 +167,9 @@ body {
   bottom:0px;
   height: 60%;
 }
+.terminal-wrapper{
+  overflow: scroll;
+}
 .info-wrapper{
   background: #fff;
   height: 100vh
