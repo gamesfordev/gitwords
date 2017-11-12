@@ -300,7 +300,8 @@ socket.on('scoreUpdate', function (res) {
     let i = 1;
 
     sorted.forEach((v) => {
-        result += '<tr><td class="name" align="left">' + i + '. ' + v.playerName + '</td><td class="score" align="right"><span class="badge badge-success">' + v.score + ' PTS </a></td></tr>'
+        let rank = i <= 3 ? 'danger' : 'success';
+        result += '<tr><td class="name" align="left">' + i + '. ' + v.playerName + '</td><td class="score" align="right"><span class="badge badge-' + rank + '">' + v.score + ' PTS </a></td></tr>'
         i++;
     })
 
