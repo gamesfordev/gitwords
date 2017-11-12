@@ -35,6 +35,6 @@ If you click the "PLAY AGAIN" button you will see heighest marks in leaderboard 
 
 except that these are other commands you can perform in the terminal.
 - clear, cls to clear the console. 
-- 'music off' to turn off music. 'music on' to turn it back on
+- 'music off' to turn off music. 'music on' to turn it back on<br>
  And enjoy the game :)    
 
