@@ -164,12 +164,14 @@ let startGame = () => {
         $('#score').html(myScore);
         socket.emit('playerConnect', playerName);
 
-        gameTicker = window.setInterval(() => {
-            gameTick();
-        }, 1000);
+        window.setTimeout(() => {
+            gameTicker = window.setInterval(() => {
+                gameTick();
+            }, 1000);
 
-        showWord();
-        $('#commandInput').focus();
+            showWord();
+            $('#commandInput').focus();
+        },3000);
     }
     else{
         alert('Please enter an username with 3-10 chars.');
