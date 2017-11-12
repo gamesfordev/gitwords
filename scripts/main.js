@@ -121,7 +121,7 @@ let gameOver = () => {
     $('#gameScreen').hide();
     $('#endScreen').show();
 
-    socket.emit('finish', {playerName:playeName,score:myScore}); //set whatever data you want to save to the db
+    socket.emit('finish', {playerName:playerName,score:myScore}); //set whatever data you want to save to the db
 
 
 };
@@ -140,8 +140,10 @@ socket.on('scoreUpdate', function(res) {
     console.log(res) //update leaderboard using this data
     let result=''
 
-
-    res.data.forEach((v)=>{
+    let sorted =res.data.sort((a,b)=>{
+        b.score-a.score
+    }).slice(0,10)
+    sorted.forEach((v)=>{
         result += v.playerName+' : '+v.score +'<br>'
     })
 
