@@ -292,9 +292,11 @@ socket.on('scoreUpdate', function (res) {
     let sorted = res.data.sort((a, b) => {
         return parseInt(b.score) - parseInt(a.score)
     }).slice(0, 10)
+    let i = 1;
 
     sorted.forEach((v) => {
-        result += '<tr><td class="name">' + v.playerName + '</td> <td class="colon">:</td><td class="score">' + v.score + '</td></tr>'
+        result += '<tr><td class="name" align="left">' + i + '. ' + v.playerName + '</td><td class="score" align="right"><span class="badge badge-success">' + v.score + ' PTS </a></td></tr>'
+        i++;
     })
 
     $('#leaderboard').html(result)

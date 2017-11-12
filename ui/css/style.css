@@ -249,10 +249,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
   font-family: 'robotolight';
   font-weight: 700;  
 }
-#leaderboard .name{
-  float: left
-}
-#leaderboard .colon{
-  min-width: 10px;
-  padding: 0px 10px;
+
+#leaderboard .score {
+  font-size:18px;
 }
