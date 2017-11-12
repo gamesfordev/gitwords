@@ -2,6 +2,9 @@
 const HOST = location.origin.replace(/^http/, 'ws')
 let socket = io.connect(HOST);
 let gameTicker = null;
+let animationTicker = null;
+let animPos = 0;
+let animDir = 1;
 let currentWord = '';
 let loadedWord = '';
 let myScore = 0;
@@ -127,6 +130,7 @@ let processCommand = (text) => {
 
 let addToPool = (chunks) => {
     $('#pool').html('');
+
     for (let i = 0; i < chunks.length; i++) {
         let cardHtml = '<div class="title">' + i + '</div>' +
             '<div class="box">' + chunks[i] + '</div>';
@@ -137,6 +141,7 @@ let addToPool = (chunks) => {
         $(card).html(cardHtml);
         $(card).css('top', topPos + '%');
         $(card).css('margin-top', '-40px');
+        $(card).data('dir', '0.2');
 
         $(card).css('left', leftPos + '%');
 
@@ -186,6 +191,11 @@ let startGame = () => {
                 gameTick();
             }, 1000);
 
+            animationTicker = setInterval(() => {
+                animationTick();
+            },100);
+
+
             showWord();
             $('#commandInput').focus();
         },5000);
@@ -221,6 +231,7 @@ let gameTick = () => {
 let gameOver = () => {
     console.log('Game over');
     window.clearInterval(gameTicker);
+    window.clearInterval(animationTicker);
     $('#gameScreen').hide();
     $('#endScreen').show();
     $('#finalscore').html(myScore);
@@ -234,6 +245,20 @@ let gameOver = () => {
     socket.emit('finish', r); //set whatever data you want to save to the db
 
 
+};
+
+let animationTick = () => {
+    $('#pool .chunkcard').each((i, element) => {
+        let pos = parseFloat(document.getElementById('ck_' + i).style.top);
+        let dir = parseFloat($(element).data('dir'));
+        console.log('dir',dir);
+        pos += dir;
+        if(pos < 10) $(element).data('dir', Math.abs(dir));
+        if(pos > 80) $(element).data('dir', -dir);
+
+        console.log(pos);
+        $(element).css('top', pos + '%' );
+    });
 };
 
 let loadSound = () => {
