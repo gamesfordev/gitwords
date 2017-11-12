@@ -471,7 +471,7 @@ body {
     height :200px;
     /*background-color:#444444;*/
     position: fixed;
-    top: 50%;
+    top: 30%;
     left: 50%;
     margin-left: -200px;
     margin-top: -100px;
@@ -512,4 +512,38 @@ body {
 
 #startScreen .window .seperator {
     height: 20px;
+}
+.logo{
+  width: 375px;
+  margin: 20px 10px;
+  text-align: center;
+}
+
+.parent-wrapper{
+  height: 50%;
+}
+.words-wrapper{
+ background: #e6e6e6;
+ height: 140%;
+}
+.terminal-wrapper{
+  background: #383838;
+  bottom:0px;
+  height: 60%;
+}
+.info-wrapper{
+  background: #fff;
+  height: 100vh
+}
+.input-background{
+  background: rgba(83, 83, 83, 0);
+  border: 0;
+  width: 100%;
+  color: #fff;
+  font-family: Courier New, Courier, monospace;
+  margin: 5px 10px;
+}
+.input-background:focus{
+  outline: none;
+
 }
