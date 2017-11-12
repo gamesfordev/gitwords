@@ -116,6 +116,8 @@ let gameTick = () => {
 let gameOver = () => {
     console.log('Game over');
     window.clearInterval(gameTicker);
+    $('#gameScreen').hide();
+    $('#endScreen').show();
 };
 
 let loadSound = () => {
