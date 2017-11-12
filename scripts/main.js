@@ -144,24 +144,30 @@ let showWord = () => {
 
 let startGame = () => {
     playerName = $('#nickNameInput').val();
-    myScore = 0;
-    myTime = 180;
+    if(playerName.length >= 3 && playerName.length <= 10) {
+        myScore = 0;
+        myTime = 180;
 
-    createjs.Sound.play("start");
+        createjs.Sound.play("start");
 
-    $('#startGame').hide();
-    $('#gameScreen').show();
-    $('#player').html(playerName);
-    $('#time').html(myTime);
-    $('#score').html(myScore);
-    socket.emit('playerConnect', playerName);
+        $('#startGame').hide();
+        $('#gameScreen').show();
+        $('#player').html(playerName);
+        $('#time').html(myTime);
+        $('#score').html(myScore);
+        socket.emit('playerConnect', playerName);
 
-    gameTicker = window.setInterval(() => {
-        gameTick();
-    }, 1000);
+        gameTicker = window.setInterval(() => {
+            gameTick();
+        }, 1000);
 
-    showWord();
-    $('#commandInput').focus();
+        showWord();
+        $('#commandInput').focus();
+    }
+    else{
+        alert('Please enter an username with 3-10 chars.');
+        $('#nickNameInput').focus();
+    }
 };
 
 
