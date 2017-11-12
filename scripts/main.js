@@ -188,6 +188,18 @@ let startGame = () => {
 
             showWord();
             $('#commandInput').focus();
+        },4000);
+
+        window.setTimeout(() => {
+            $('#pool').html('<h1>Ready?</h1>');
+        },1000);
+
+        window.setTimeout(() => {
+            $('#pool').html('<h1>Git ❤️️ and Words 💙</h1>');
+        },2000);
+
+        window.setTimeout(() => {
+            $('#pool').html('<h1>Start</h1>');
         },3000);
     }
     else {
