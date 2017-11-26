@@ -195,7 +195,7 @@ let startGame = () => {
     if (playerName.length >= 3 && playerName.length <= 10) {
         myScore = 0;
         myTime = 180;
-
+        currentWord = "";
         createjs.Sound.play("start");
 
         $('#startGame').hide();
